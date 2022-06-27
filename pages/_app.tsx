@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 // Here we combine:
 // - using a react context to pass object to children components
 // - the useState hook to create and pass a state and a state setter function
-// Then, the components anywhere in the app who will 'useAppContext' will be able to view and modify an app-wide state
+// Then, any component in the app who uses 'useAppContext' will be able to view and modify an app-wide state
 // Definitely overkill for the current app, but it was 5 minutes copy-pasting from a previous project
 type StateRawData = {
   connected: boolean
@@ -14,6 +14,8 @@ type AppState = {
   setAppState: Dispatch<SetStateAction<StateRawData>>
 }
 
+// The default value passed to 'createContext' is pretty useless, but it is an easy way of letting
+// Typescript infer the type of the state
 const AppContext = createContext({ appState: { connected: false }, setAppState: () => {}} as AppState);
 
 function MyApp({ Component, pageProps }: AppProps) {

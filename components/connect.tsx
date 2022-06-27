@@ -24,7 +24,9 @@ export default function Connect() {
         }
     }, [])
     return <Stack sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} spacing={2}>
+
         {!state.walletInstalled && <Alert severity="error">Please first install <a href="https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap">the Keplr wallet</a></Alert>}
+        
         <Button disabled={!state.walletInstalled || state.connecting} variant="contained" size="large" onClick={async _ => {
             setState({...state, ...{connecting: true }})
             const connectError = await connect(window.keplr!)
@@ -34,6 +36,7 @@ export default function Connect() {
                 setState({...state, ...{ connecting: false, connectError: `There was an issue when trying to connect: ${connectError}` }})
             }
         }}>Connect</Button>
+        
         {state.connecting && <CircularProgress />}
         {state.connectError && <Alert severity="error">{state.connectError}</Alert>}
     </Stack>

@@ -2,10 +2,11 @@ import { Stack, Box, CircularProgress, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { getBalances, BalancesInfo } from "../lib/connect"
 
+type MuiTypographyVariant = "button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline" | undefined
 interface TableLineProps {
-    cell1Variant: "button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline" | undefined
+    cell1Variant: MuiTypographyVariant
     cell1Content: string
-    cell2Variant: "button" | "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "inherit" | "subtitle1" | "subtitle2" | "body1" | "body2" | "overline" | undefined
+    cell2Variant: MuiTypographyVariant
     cell2Content: string
 }
 
@@ -43,8 +44,10 @@ export default function Balance () {
         return <Box sx={{display: 'flex', justifyContent: 'center'}}><CircularProgress/></Box>
     }
 
+    //Constructs objects describing table lines, the first being the header line
     const lines = [{cell1Variant: 'overline', cell1Content: 'Coin', cell2Variant: 'overline', cell2Content: 'Balance'} as TableLineProps]
-
+    
+    //Then one line per balance returned by 'getBalances'
     state.balancesInfo.balances.forEach(balanceInfo => {
         lines.push({cell1Variant: 'overline', cell1Content: balanceInfo.coin, cell2Variant: 'body1', cell2Content: balanceInfo.amount} as TableLineProps)
     })
